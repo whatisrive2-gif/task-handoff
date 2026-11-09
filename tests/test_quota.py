@@ -29,7 +29,7 @@ class QuotaTests(unittest.TestCase):
     def test_trigger_once_saved_snapshot_and_rearm(self):
         self.m.checkpoint('task',self.file);self.file.unlink()
         a=self.m.sample(reader=lambda _:result(92,10));self.assertEqual(len(a['events']),1)
-        handoff=Path(a['events'][0]['path']);self.assertIn('Saved work.',handoff.read_text());self.assertIn('没有停止原 agent',handoff.read_text())
+        handoff=Path(a['events'][0]['path']);self.assertIn('Saved work.',handoff.read_text(encoding='utf-8'));self.assertIn('没有停止原 agent',handoff.read_text(encoding='utf-8'))
         self.assertEqual(len(self.m.sample(reader=lambda _:result(99,99))['events']),1)
         self.file.write_text('# New version')
         self.assertFalse(self.m.checkpoint('task',self.file)['armed'])
